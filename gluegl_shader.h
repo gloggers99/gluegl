@@ -40,19 +40,34 @@ extern gluegl_list_t *__gluegl_shader_global_list;
 void __gluegl_shader_global_list_create();
 void __gluegl_shader_global_list_destroy();
 
-#define import(import_as, vertex_path, fragment_path) \
-        {                                             \
-            __gluegl_shader_todo_t *__todo = malloc(sizeof(__gluegl_shader_todo_t)); \
-            if (__todo) {                                                      \
-                __todo->name = strdup(import_as);                              \
-                __todo->vertex_shader_path = strdup(vertex_path);              \
-                __todo->fragment_shader_path = strdup(fragment_path);          \
-                gluegl_list_append(__gluegl_shader_global_list, __todo);                    \
-            }                                             \
-        }
-
 #define CONCATENATE_DETAIL(x, y) x##y
 #define CONCATENATE(x, y) CONCATENATE_DETAIL(x, y)
+
+#define STRINGIFY_DETAIL(x) #x
+#define STRINGIFY(x) STRINGIFY_DETAIL(x)
+
+// Helper macros for creating paths with extensions
+#define CONCATENATE_PATH(name, ext) name ext
+
+// Define import_as macro
+#define import_as(shader_name, vertex_path, fragment_path) \
+    { \
+        __gluegl_shader_todo_t *__todo = malloc(sizeof(__gluegl_shader_todo_t)); \
+        if (__todo) { \
+            __todo->name = strdup(shader_name); \
+            __todo->vertex_shader_path = strdup(vertex_path); \
+            __todo->fragment_shader_path = strdup(fragment_path); \
+            gluegl_list_append(__gluegl_shader_global_list, __todo); \
+        } \
+    }
+
+// Define import macro to automatically use the same name for vertex and fragment shaders
+#define import(shader_name) \
+    import_as( \
+        shader_name, \
+        CONCATENATE_PATH(shader_name, ".vert"), \
+        CONCATENATE_PATH(shader_name, ".frag") \
+    )
 
 #define shaders                                                         \
     __attribute__((constructor)) static void CONCATENATE(__gluegl_shader_global_list_init_, __COUNTER__)()

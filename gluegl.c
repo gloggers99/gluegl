@@ -34,15 +34,6 @@ gluegl_t *gluegl_init(int width, int height, char *title, GLFWmonitor *monitor, 
     glfwMakeContextCurrent(gluegl->window);
     gladLoadGL(glfwGetProcAddress);
 
-    /*
-    while (!glfwWindowShouldClose(gluegl->window)) {
-        glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glfwSwapBuffers(gluegl->window);
-        glfwPollEvents();
-    }
-     */
-
     return gluegl;
 }
 
