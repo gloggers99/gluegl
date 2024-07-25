@@ -1,11 +1,4 @@
-#include <stdio.h>
-
 #include "gluegl.h"
-
-shaders {
-    import("test", "test.vert", "test.frag")
-    import("test2", "test2.vert", "test2.frag")
-}
 
 int loop(gluegl_t *gluegl) {
     glClear(GL_COLOR_BUFFER_BIT);

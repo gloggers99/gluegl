@@ -14,6 +14,8 @@ void gluegl_error_callback(int error, const char *description) {
 gluegl_t *gluegl_init(int width, int height, char *title, GLFWmonitor *monitor, GLFWwindow *window) {
     gluegl_t *gluegl = malloc(sizeof(gluegl_t));
 
+    gluegl->delta_time = 0.0;
+
     if (glfwInit() != GL_TRUE) {
         fprintf(stderr, "gluegl: Failed to initialize GLFW!\n");
         free(gluegl);
